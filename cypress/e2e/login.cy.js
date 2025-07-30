@@ -5,11 +5,7 @@ describe('Testes de Login', () => {
   })
   it('Login com dados válidos deve permitir entrada no sistema', () => {
     // Act
-    cy.fixture('credenciais').then(credenciais => {
-      cy.get('#username').click().type(credenciais.valida.usuario)
-      cy.get('#senha').click().type(credenciais.valida.senha)
-    })
-    cy.contains('button', 'Entrar').click()
+    cy.LogInWithValidCredentials()
 
     //Assert
     cy.contains('h4', 'Realizar Transferência').should('be.visible')
@@ -17,13 +13,9 @@ describe('Testes de Login', () => {
 
   it('Login com dados inválidos deve apresentar mensagem de erro', () => {
     // Act
-    cy.fixture('credenciais').then(credenciais => {
-      cy.get('#username').click().type(credenciais.invalida.usuario)
-      cy.get('#senha').click().type(credenciais.invalida.senha)
-    })
-    cy.contains('button', 'Entrar').click()
+    cy.LogInWithInvalidCredentials()
 
     //Assert
-    cy.get('.toast').should('be.visible').should('have.text', 'Erro no login. Tente novamente.')
+    cy.CheckMessageInTheToast('Erro no login. Tente novamente.')
   })
 })
